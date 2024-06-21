@@ -29,6 +29,7 @@ namespace GanttControlDemo
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.mainRibbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.bbiSave = new DevExpress.XtraBars.BarButtonItem();
             this.bbiSaveAndClose = new DevExpress.XtraBars.BarButtonItem();
@@ -46,7 +47,6 @@ namespace GanttControlDemo
             // 
             // mainRibbonControl
             // 
-            this.mainRibbonControl.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(35, 37, 35, 37);
             this.mainRibbonControl.ExpandCollapseItem.Id = 0;
             this.mainRibbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.mainRibbonControl.ExpandCollapseItem,
@@ -59,14 +59,12 @@ namespace GanttControlDemo
             this.bbiClose,
             this.btnCalc});
             this.mainRibbonControl.Location = new System.Drawing.Point(0, 0);
-            this.mainRibbonControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.mainRibbonControl.MaxItemId = 11;
             this.mainRibbonControl.Name = "mainRibbonControl";
-            this.mainRibbonControl.OptionsMenuMinWidth = 385;
             this.mainRibbonControl.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.mainRibbonPage});
             this.mainRibbonControl.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
-            this.mainRibbonControl.Size = new System.Drawing.Size(931, 193);
+            this.mainRibbonControl.Size = new System.Drawing.Size(798, 158);
             this.mainRibbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
             // 
             // bbiSave
@@ -117,8 +115,8 @@ namespace GanttControlDemo
             // 
             this.btnCalc.Caption = "Calculate";
             this.btnCalc.Id = 10;
-            this.btnCalc.ImageOptions.Image = global::GanttControlDemo.Properties.Resources.calculatesheet_16x16;
-            this.btnCalc.ImageOptions.LargeImage = global::GanttControlDemo.Properties.Resources.calculatesheet_32x32;
+            this.btnCalc.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnCalc.ImageOptions.Image")));
+            this.btnCalc.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnCalc.ImageOptions.LargeImage")));
             this.btnCalc.Name = "btnCalc";
             this.btnCalc.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnCalc_ItemClick);
             // 
@@ -142,31 +140,40 @@ namespace GanttControlDemo
             // 
             // ganttControl1
             // 
+            this.ganttControl1.Appearance.CriticalPathTask.BackColor = System.Drawing.Color.Black;
+            this.ganttControl1.Appearance.CriticalPathTask.BaselineColor = System.Drawing.Color.Red;
+            this.ganttControl1.Appearance.CriticalPathTask.BorderColor = System.Drawing.Color.Black;
+            this.ganttControl1.Appearance.CriticalPathTask.ForeColor = System.Drawing.Color.Black;
+            this.ganttControl1.Appearance.Milestone.BaselineColor = System.Drawing.Color.Red;
+            this.ganttControl1.Appearance.SummaryTask.BaselineColor = System.Drawing.Color.Red;
+            this.ganttControl1.Appearance.Task.BaselineColor = System.Drawing.Color.Red;
             this.ganttControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ganttControl1.Location = new System.Drawing.Point(0, 193);
+            this.ganttControl1.Location = new System.Drawing.Point(0, 158);
+            this.ganttControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ganttControl1.MenuManager = this.mainRibbonControl;
+            this.ganttControl1.MinWidth = 17;
             this.ganttControl1.Name = "ganttControl1";
             this.ganttControl1.OptionsBehavior.UpdateDependentTaskProgress = DevExpress.Utils.DefaultBoolean.True;
-            this.ganttControl1.OptionsCustomization.AllowModifyDependencies = DevExpress.Utils.DefaultBoolean.True;
-            this.ganttControl1.OptionsCustomization.AllowModifyProgress = DevExpress.Utils.DefaultBoolean.True;
-            this.ganttControl1.OptionsCustomization.AllowModifyTasks = DevExpress.Utils.DefaultBoolean.True;
-            this.ganttControl1.OptionsSplitter.SplitterThickness = 6;
+            this.ganttControl1.OptionsSplitter.OverlayResizeZoneThickness = 5;
+            this.ganttControl1.OptionsSplitter.SplitterThickness = 5;
             this.ganttControl1.OptionsView.ShowBaselines = true;
             this.ganttControl1.OptionsView.ShowIndentAsRowStyle = true;
             this.ganttControl1.OptionsView.ShowTreeLines = DevExpress.Utils.DefaultBoolean.True;
-            this.ganttControl1.Size = new System.Drawing.Size(931, 544);
-            this.ganttControl1.SplitterPosition = 400;
+            this.ganttControl1.Size = new System.Drawing.Size(798, 441);
+            this.ganttControl1.SplitterPosition = 500;
             this.ganttControl1.TabIndex = 1;
+            this.ganttControl1.TreeLevelWidth = 15;
+            this.ganttControl1.CustomDrawTask += new DevExpress.XtraGantt.CustomDrawTaskEventHandler(this.ganttControl1_CustomDrawTask);
+            this.ganttControl1.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.ganttControl1_CellValueChanged);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(931, 737);
+            this.ClientSize = new System.Drawing.Size(798, 599);
             this.Controls.Add(this.ganttControl1);
             this.Controls.Add(this.mainRibbonControl);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Ribbon = this.mainRibbonControl;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
