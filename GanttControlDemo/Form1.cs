@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGantt;
+using DevExpress.XtraGantt.Data;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Helpers;
 using System;
@@ -22,6 +23,7 @@ namespace GanttControlDemo
         {
             public int TaskID { get; set; }
             public int ParentID { get; set; }
+            public int Progress { get; set; }
             public string TaskName { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
@@ -42,7 +44,7 @@ namespace GanttControlDemo
             ganttControl1.ChartMappings.FinishDateFieldName = "EndDate";
             ganttControl1.ChartMappings.BaselineStartDateFieldName = "BaseStartDate";
             ganttControl1.ChartMappings.BaselineFinishDateFieldName = "BaseEndDate";
-            ganttControl1.ChartMappings.ProgressFieldName = "ProgDate";
+            ganttControl1.ChartMappings.ProgressFieldName = "Progress";
             ganttControl1.OptionsView.ShowBaselines = true;
 
             ganttControl1.DependencyMappings.PredecessorFieldName = "PredecessorID";
@@ -58,7 +60,7 @@ namespace GanttControlDemo
             return new BindingList<GanttTask>
             {
                 new GanttTask { TaskID = 1, ParentID = 0, TaskName = "Project Start1", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1),BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(1)},
-                    new GanttTask { TaskID = 2, ParentID = 1, TaskName = "Task 1", StartDate = DateTime.Now.AddMonths(3), EndDate = DateTime.Now.AddMonths(6), BaseStartDate = DateTime.Now.AddMonths(4), BaseEndDate = DateTime.Now.AddMonths(7), Dependencies = new List<int>()  },
+                    new GanttTask { TaskID = 2, ParentID = 1, TaskName = "Task 1", StartDate = DateTime.Now, EndDate = DateTime.Now.AddMonths(6), BaseStartDate = DateTime.Now.AddMonths(4), BaseEndDate = DateTime.Now.AddMonths(7), Dependencies = new List<int>()  },
                     new GanttTask { TaskID = 3, ParentID = 1, TaskName = "Task 2", StartDate = DateTime.Now.AddMonths(6), EndDate = DateTime.Now.AddMonths(9), BaseStartDate = DateTime.Now.AddMonths(7), BaseEndDate = DateTime.Now.AddMonths(10) , Dependencies = new List<int>() },
                     new GanttTask { TaskID = 4, ParentID = 1, TaskName = "Task 3", StartDate = DateTime.Now.AddMonths(9), EndDate = DateTime.Now.AddMonths(12), BaseStartDate = DateTime.Now.AddMonths(10), BaseEndDate = DateTime.Now.AddMonths(13) , Dependencies = new List<int>() },
                 new GanttTask { TaskID = 5, ParentID = 0, TaskName = "Project Start2", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(2), BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(2) },
@@ -87,6 +89,7 @@ namespace GanttControlDemo
             table.Rows.Add(new object[] { 2, 3, DependencyType.FinishToStart, null });
             table.Rows.Add(new object[] { 3, 4, DependencyType.FinishToStart, null });
 
+
             table.Rows.Add(new object[] { 5, 6, DependencyType.StartToStart, null });
             table.Rows.Add(new object[] { 6, 7, DependencyType.FinishToStart, null });
             table.Rows.Add(new object[] { 7, 8, DependencyType.FinishToStart, null });
@@ -102,6 +105,32 @@ namespace GanttControlDemo
             return table;
         }
 
+        private void CalcProgress()
+        {
+            BindingList<GanttTask> dts = (BindingList<GanttTask>)ganttControl1.DataSource;
+            foreach (GanttTask task in dts)
+            {
+                if (task.ParentID != 0 && task.StartDate < DateTime.Now.AddMonths(3))
+                {
+                    if (DateTime.Now.AddMonths(3) > task.StartDate)
+                    {
+                        TimeSpan diferenceSE = task.EndDate - task.StartDate;
+                        TimeSpan diferenceSN = DateTime.Now.AddMonths(3) - task.StartDate;
+                        decimal progress = Convert.ToDecimal(diferenceSN.TotalDays / diferenceSE.TotalDays);
+                        if (progress <= 0)
+                        {
+                            task.Progress = 0;
+                        }
+                        else
+                        {
+                            task.Progress = Convert.ToInt32(progress * 100);
+                        }
+                    }
+                }
+            }
+            ganttControl1.DataSource = dts;
+            ganttControl1.RefreshDataSource();
+        }
         private void btnCalc_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             isCalc = true;
@@ -143,21 +172,14 @@ namespace GanttControlDemo
             {
                 ganttControl1.DataSource = tasks;
             }
-            ganttControl1.Columns["StartDate"].OptionsColumn.ReadOnly = false;
-            ganttControl1.Columns["StartDate"].OptionsColumn.AllowEdit = true;
-
+            CalcProgress();
             ganttControl1.ExpandAll();
 
         }
 
         private void ganttControl1_CellValueChanged(object sender, DevExpress.XtraTreeList.CellValueChangedEventArgs e)
         {
-            //var focusedNode = ganttControl1.FocusedValue;
-            // if (focusedNode != null)
-            // {
-            //     var cellValue = ganttControl1.GetRowCellValue(focusedNode, ganttControl1.FocusedColumn);
-            //     MessageBox.Show(cellValue.ToString());
-            // }
+            CalcProgress();
             ganttControl1.RefreshDataSource();
         }
 
