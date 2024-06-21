@@ -57,25 +57,37 @@ namespace GanttControlDemo
         }
         private BindingList<GanttTask> GetGanttTasks()
         {
-            return new BindingList<GanttTask>
-            {
-                new GanttTask { TaskID = 1, ParentID = 0, TaskName = "Project Start1", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1),BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(1)},
-                    new GanttTask { TaskID = 2, ParentID = 1, TaskName = "Task 1", StartDate = DateTime.Now, EndDate = DateTime.Now.AddMonths(6), BaseStartDate = DateTime.Now.AddMonths(4), BaseEndDate = DateTime.Now.AddMonths(7), Dependencies = new List<int>()  },
-                    new GanttTask { TaskID = 3, ParentID = 1, TaskName = "Task 2", StartDate = DateTime.Now.AddMonths(6), EndDate = DateTime.Now.AddMonths(9), BaseStartDate = DateTime.Now.AddMonths(7), BaseEndDate = DateTime.Now.AddMonths(10) , Dependencies = new List<int>() },
-                    new GanttTask { TaskID = 4, ParentID = 1, TaskName = "Task 3", StartDate = DateTime.Now.AddMonths(9), EndDate = DateTime.Now.AddMonths(12), BaseStartDate = DateTime.Now.AddMonths(10), BaseEndDate = DateTime.Now.AddMonths(13) , Dependencies = new List<int>() },
-                new GanttTask { TaskID = 5, ParentID = 0, TaskName = "Project Start2", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(2), BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(2) },
-                    new GanttTask { TaskID = 6, ParentID = 5, TaskName = "Task 1", StartDate = DateTime.Now.AddMonths(1), EndDate = DateTime.Now.AddMonths(5), BaseStartDate = DateTime.Now.AddMonths(3), BaseEndDate = DateTime.Now.AddMonths(7) , Dependencies = new List<int>() },
-                    new GanttTask { TaskID = 7, ParentID = 5, TaskName = "Task 2", StartDate = DateTime.Now.AddMonths(5), EndDate = DateTime.Now.AddMonths(9), BaseStartDate = DateTime.Now.AddMonths(7), BaseEndDate = DateTime.Now.AddMonths(11) , Dependencies = new List<int>() },
-                    new GanttTask { TaskID = 8, ParentID = 5, TaskName = "Task 3", StartDate = DateTime.Now.AddMonths(9), EndDate = DateTime.Now.AddMonths(13), BaseStartDate = DateTime.Now.AddMonths(11), BaseEndDate = DateTime.Now.AddMonths(15) , Dependencies = new List<int>() },
-                new GanttTask { TaskID = 9, ParentID = 0, TaskName = "Project Start3", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(2) },
-                    new GanttTask { TaskID = 10, ParentID = 9, TaskName = "Task 1", StartDate = DateTime.Now.AddMonths(2), EndDate = DateTime.Now.AddMonths(4), BaseStartDate = DateTime.Now.AddMonths(3), BaseEndDate = DateTime.Now.AddMonths(5) , Dependencies = new List<int>() },
-                    new GanttTask { TaskID = 11, ParentID = 9, TaskName = "Task 2", StartDate = DateTime.Now.AddMonths(4), EndDate = DateTime.Now.AddMonths(6), BaseStartDate = DateTime.Now.AddMonths(5), BaseEndDate = DateTime.Now.AddMonths(7) , Dependencies = new List<int>() },
-                    new GanttTask { TaskID = 12, ParentID = 9, TaskName = "Task 3", StartDate = DateTime.Now.AddMonths(6), EndDate = DateTime.Now.AddMonths(8), BaseStartDate = DateTime.Now.AddMonths(7), BaseEndDate = DateTime.Now.AddMonths(9), Dependencies = new List<int>() },
-                new GanttTask { TaskID = 13, ParentID = 0, TaskName = "Project Start4", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(4), BaseStartDate = DateTime.Now, BaseEndDate = DateTime.Now.AddYears(5) },
-                    new GanttTask { TaskID = 14, ParentID = 13, TaskName = "Task 1", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), BaseStartDate = DateTime.Now.AddYears(1), BaseEndDate = DateTime.Now.AddYears(2) , Dependencies = new List<int>()},
-                    new GanttTask { TaskID = 15, ParentID = 13, TaskName = "Task 2", StartDate = DateTime.Now.AddYears(1), EndDate = DateTime.Now.AddYears(2), BaseStartDate = DateTime.Now.AddYears(2), BaseEndDate = DateTime.Now.AddYears(3) , Dependencies = new List<int>()},
-                    new GanttTask { TaskID = 16, ParentID = 13, TaskName = "Task 3", StartDate = DateTime.Now.AddYears(2), EndDate = DateTime.Now.AddYears(3), BaseStartDate = DateTime.Now.AddYears(3), BaseEndDate = DateTime.Now.AddYears(4) , Dependencies = new List<int>()}
-            };
+            var tasks = new BindingList<GanttTask>();
+            DateTime now = DateTime.Now;
+            // Project Start1
+            tasks.Add(new GanttTask { TaskID = 1, ParentID = 0, TaskName = "Project Start1", StartDate = now, EndDate = now.AddYears(1), BaseStartDate = now, BaseEndDate = now.AddYears(1) });
+            tasks.Add(new GanttTask { TaskID = 2, ParentID = 1, TaskName = "Task 1", StartDate = now, EndDate = now.AddMonths(6), BaseStartDate = now.AddMonths(4), BaseEndDate = now.AddMonths(7) });
+            tasks.Add(new GanttTask { TaskID = 3, ParentID = 1, TaskName = "Task 2", StartDate = now.AddMonths(6), EndDate = now.AddMonths(9), BaseStartDate = now.AddMonths(7), BaseEndDate = now.AddMonths(10) });
+            tasks.Add(new GanttTask { TaskID = 4, ParentID = 1, TaskName = "Task 3", StartDate = now.AddMonths(9), EndDate = now.AddMonths(12), BaseStartDate = now.AddMonths(10), BaseEndDate = now.AddMonths(13) });
+
+            // Project Start2
+            tasks.Add(new GanttTask { TaskID = 5, ParentID = 0, TaskName = "Project Start2", StartDate = now, EndDate = now.AddYears(2), BaseStartDate = now, BaseEndDate = now.AddYears(2) });
+            tasks.Add(new GanttTask { TaskID = 6, ParentID = 5, TaskName = "Task 1", StartDate = now.AddMonths(1), EndDate = now.AddMonths(5), BaseStartDate = now.AddMonths(3), BaseEndDate = now.AddMonths(7) });
+            tasks.Add(new GanttTask { TaskID = 7, ParentID = 5, TaskName = "Task 2", StartDate = now.AddMonths(5), EndDate = now.AddMonths(9), BaseStartDate = now.AddMonths(7), BaseEndDate = now.AddMonths(11) });
+            tasks.Add(new GanttTask { TaskID = 8, ParentID = 5, TaskName = "Task 3", StartDate = now.AddMonths(9), EndDate = now.AddMonths(13), BaseStartDate = now.AddMonths(11), BaseEndDate = now.AddMonths(15) });
+
+            // Project Start3
+            tasks.Add(new GanttTask { TaskID = 9, ParentID = 0, TaskName = "Project Start3", StartDate = now, EndDate = now.AddYears(1), BaseStartDate = now, BaseEndDate = now.AddYears(2) });
+            tasks.Add(new GanttTask { TaskID = 10, ParentID = 9, TaskName = "Task 1", StartDate = now.AddMonths(2), EndDate = now.AddMonths(4), BaseStartDate = now.AddMonths(3), BaseEndDate = now.AddMonths(5) });
+            tasks.Add(new GanttTask { TaskID = 11, ParentID = 9, TaskName = "Task 2", StartDate = now.AddMonths(4), EndDate = now.AddMonths(6), BaseStartDate = now.AddMonths(5), BaseEndDate = now.AddMonths(7) });
+            tasks.Add(new GanttTask { TaskID = 12, ParentID = 9, TaskName = "Task 3", StartDate = now.AddMonths(6), EndDate = now.AddMonths(8), BaseStartDate = now.AddMonths(7), BaseEndDate = now.AddMonths(9) });
+
+            // Project Start4
+            tasks.Add(new GanttTask { TaskID = 13, ParentID = 0, TaskName = "Project Start4", StartDate = now, EndDate = now.AddYears(4), BaseStartDate = now, BaseEndDate = now.AddYears(5) });
+            tasks.Add(new GanttTask { TaskID = 14, ParentID = 13, TaskName = "Task 1", StartDate = now, EndDate = now.AddYears(1), BaseStartDate = now.AddYears(1), BaseEndDate = now.AddYears(2) });
+            tasks.Add(new GanttTask { TaskID = 15, ParentID = 13, TaskName = "Task 2", StartDate = now.AddYears(1), EndDate = now.AddYears(2), BaseStartDate = now.AddYears(2), BaseEndDate = now.AddYears(3) });
+            tasks.Add(new GanttTask { TaskID = 16, ParentID = 13, TaskName = "Task 3", StartDate = now.AddYears(2), EndDate = now.AddYears(3), BaseStartDate = now.AddYears(3), BaseEndDate = now.AddYears(4) });
+
+            //for (int i = 18; i < 10000; i++)
+            //{
+            //    tasks.Add(new GanttTask { TaskID = i, ParentID = 0, TaskName = "Project Start1", StartDate = now, EndDate = now.AddYears(1), BaseStartDate = now, BaseEndDate = now.AddYears(1) });
+            //}
+            return tasks;
         }
         DataTable GetDependencies()
         {
